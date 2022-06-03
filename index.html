@@ -1,0 +1,134 @@
+
+<!doctype html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Info Vis Assignment 1t</title>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+
+<!-- <style>
+    table, th, td {
+        border: 1px solid black;
+        border-collapse: collapse;
+    }
+    
+    p {
+        font-family: "Arial";
+    }
+
+  .HighUtil{
+      color: red;
+    }
+
+    .dataIssue {
+        background-color: yellow;
+    }
+    tr:nth-child(even) {background-color:grey;}
+
+
+</style> -->
+</head>
+<body>
+
+<div class="container">
+    <h2  class="title" >PSI Index</h2>
+
+    <table id="carparkTable" class="table is-hoverable">
+        <tr>
+            <th>Metric</th>
+            <th>National</th>
+            <th>North</th>
+            <th>South</th>
+            <th>East</th>
+            <th>West</th>
+            <th>Central</th>
+        </tr>
+    </table>
+</div>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+
+fetch('https://api.data.gov.sg/v1/environment/psi')
+  .then(response => response.json())
+  .then(data => {
+    let carpark = data.items[0].readings;
+    tr ='<tr>'
+    markup = ''
+
+    for(var key in carpark) {
+      // console.log(key)
+       item = carpark[key]
+       console.log(item)
+       metric = "<td>" + key + "</td>" 
+
+       nat = "<td>" + item['national'] + "</td>" 
+       west = "<td>" + item['west'] + "</td>" 
+       east = "<td>" + item['east'] + "</td>" 
+       central = "<td>" + item['central'] + "</td>" 
+       north = "<td>" + item['north'] + "</td>" 
+       south = "<td>" + item['south'] + "</td>" 
+       markup = markup + tr + metric + nat + north + south + east + west +  central +'</tr>'
+    }
+
+
+    $('#carparkTable').append(markup)
+    let table = document.querySelector('table');
+    let caption = table.createCaption();
+    caption = data.items[0].update_timestamp;
+    // for (index = 0; index < carpark.length; ++index) {
+    //     var carparkObj = carpark[index]
+        
+    //     carparkInfo = carparkObj['carpark_info']
+    //     carParkNumber = carparkObj['carpark_number']
+    //     timestamp = carparkObj['update_datetime']
+
+    //     for(i = 0; i <carparkInfo.length; ++i) {
+
+    //     totalLot = carparkInfo[i]['total_lots']
+    //     lotsAvailable = carparkInfo[i]['lots_available']
+    //     lotType = carparkInfo[i]['lot_type']
+    //     utilization = ((totalLot-lotsAvailable)/totalLot)*100
+    //     utilization = Math.round(utilization)
+    //     markup = ''
+    //     if(totalLot <= 0|| lotsAvailable > totalLot) {
+    //        tr = '<tr class = "dataIssue">'
+    //     } else {
+    //         tr = '<tr>'
+    //     }
+
+    //     carParkNumberTd = '<td><p>' + carParkNumber + '</p></td>'
+    //     timestampTd = '<td><p>' + timestamp + '</p></td>'
+    //     lotTypeTd = '<td><p>' + lotType + '</p></td>'
+    //     totalLotTd = '<td><p>' + totalLot + '</p></td>'
+    //     lotsAvailableTd = '<td><p>' + lotsAvailable + '</p></td>'
+
+    //         if(utilization >= 80) {
+    //             utilizationTd = utilization +='%'
+    //             utilizationTd = '<td><p class ="HighUtil">' + utilization + '</p></td>'
+
+    //         } else {
+    //             utilizationTd = utilization +='%'
+    //             utilizationTd = '<td><p>' + utilization + '</p></td>'
+    //         }
+    //     markup = tr + carParkNumberTd + timestampTd + lotTypeTd + totalLotTd + lotsAvailableTd + utilizationTd + '</tr>'
+
+    //     $('#carparkTable').append(markup); 
+    //     }
+    //     //console.log()
+    //     //console.log(carparkObj);
+    //     console.log(markup);
+
+    //     }
+
+    // console.log(carpark);
+  
+  });
+
+
+</script>
+</body>
+</html>
